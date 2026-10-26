@@ -11,15 +11,40 @@ Background: Railway stations are complex environments with numerous facilities a
 Ministry of Railway
 
 ## Idea
+NaviRail 360: AR-Powered Smart Wayfinding Ecosystem
+NaviRail 360 is a highly accurate, multi-platform indoor navigation ecosystem designed to eliminate passenger confusion in dense railway stations. Since traditional GPS fails indoors, NaviRail 360 leverages a hybrid positioning system using Bluetooth Low Energy (BLE) Beacons and Augmented Reality (AR) spatial mapping.
 
+Passengers can interact with touch-screen digital kiosks to instantly visualize 3D station maps and scan a QR code to hand the route off to their smartphone. Once on mobile, users can activate "AR View" to see floating digital arrows overlaying their real-world camera view, guiding them step-by-step to their exact platform, food court, or restroom. The system features a core "Accessibility Engine" providing haptic/voice feedback for the visually impaired and step-free routes for wheelchair users.
 
 ## Proposed Solution / Architecture Diagram
+<img width="1024" height="1536" alt="e8a7e4ff-14c4-400a-947b-ec25e0b0385a" src="https://github.com/user-attachments/assets/40d52b69-74b8-4ba6-a24b-21e38091b400" />
 
 
 ## Use Cases
+AR-Guided Passenger Routing: A passenger looking for Platform 6 opens their camera; AR arrows appear on the floor of their screen, guiding them through crowds to the exact location.
 
+Frictionless Kiosk-to-Mobile Handoff: A user plans a route on a public touch-screen kiosk. A QR code is generated on the screen. The user scans it, and the exact navigation session instantly transfers to their mobile browser without downloading an app.
+
+Wheelchair & Stroller Accessibility: A "Step-Free" toggle automatically re-routes the passenger around escalators and staircases, providing a path strictly utilizing ramps and elevators.
+
+Visually Impaired Assistance: Integrates Voice Guidance and Haptic Feedback (vibrations) to tell users exactly when to walk straight, turn, or stop.
+
+Dynamic Congestion & Maintenance Rerouting: If an escalator breaks down, station admins mark it as "Closed" on the dashboard. The routing engine instantly recalculates paths for all active users to avoid that bottleneck.
 
 ## Technology Stack
+Frontend (Mobile): React Native (allows building for both iOS and Android), ViroReact or ARCore/ARKit for the Augmented Reality overlays.
 
+Frontend (Kiosk & Admin): React.js, packaged as a lightweight PWA for high performance on touchscreen hardware.
+
+Backend: Node.js (Express) for the main API and user management, with a Python microservice to execute the complex graph-theory pathfinding algorithms (A* or Dijkstra's).
+
+Database: PostgreSQL (with PostGIS extension for spatial mapping) for permanent layout data, and Redis for high-speed caching of live train platforms and temporary facility closures.
+
+Mapping/UI: Mapbox GL JS for rendering the 3D isometric base map of the station.
 
 ## Dependencies
+1. Hardware Requirements: Bluetooth Low Energy (BLE) beacons (e.g., Estimote) installed every 15-20 meters across the station ceilings/walls to triangulate indoor positioning.
+
+2. Design Assets: Official CAD layouts or blueprints of the station from the Ministry of Railways to digitize into node-graph maps.
+
+3. Software APIs: Google Text-to-Speech (TTS) API for voice navigation, and integration with IRCTC/NTES APIs to automatically link real-time train arrivals to specific platform nodes.
